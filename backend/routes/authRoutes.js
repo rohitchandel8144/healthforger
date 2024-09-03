@@ -17,7 +17,7 @@ const router = express.Router();
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 router.get("/google/callback", passport.authenticate("google", {
-    failureRedirect: "/login",
+    failureRedirect: `${process.env.FRONT_END_URL}/login`,
     session: false,
 }), (req, res) => {
     const token = req.user.generateJwt(); // Generate JWT for the user
