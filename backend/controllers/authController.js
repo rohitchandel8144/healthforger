@@ -1,3 +1,4 @@
+const axios = require('axios');
 const User = require("../db/models/user");
 const Jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
