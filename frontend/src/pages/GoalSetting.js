@@ -211,7 +211,7 @@ export default function GoalSetting() {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
       await axios.delete(
-        `http://localhost:5000/api/goals/deletegoal/${goalId}`,
+        `${process.env.REACT_APP_API_URL}/api/goals/deletegoal/${goalId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -259,7 +259,7 @@ export default function GoalSetting() {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
       await axios.patch(
-        `http://localhost:5000/api/goals/archivegoals/${goalId}`,
+        `${process.env.REACT_APP_API_URL}/api/goals/archivegoals/${goalId}`,
         {},
         {
           headers: {

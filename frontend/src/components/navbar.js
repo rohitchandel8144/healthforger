@@ -107,7 +107,7 @@ const Navbar = () => {
         </div>
 
         {/* Hamburger menu and close icon wrapper */}
-        <div className="block lg:hidden absolute right-0 top-0 p-4">
+        <div className="block lg:hidden absolute right-0 top-0  p-1">
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="text-white focus:outline-none"
