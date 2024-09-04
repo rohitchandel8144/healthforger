@@ -21,7 +21,7 @@ const Navbar = () => {
   const auth = localStorage.getItem("user");
   const parsedAuth = typeof auth === "string" ? JSON.parse(auth) : auth; // Parse if it's a string
   const role = parsedAuth?.role === "admin"; // Check if the role is 'admin'
-  
+
   const navigate = useNavigate();
 
   function toggleSlider() {
@@ -69,7 +69,7 @@ const Navbar = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="container mx-auto flex justify-between items-center">
+      <div className="container mx-auto flex justify-between items-center relative">
         <div className="flex items-center">
           <motion.svg
             className="w-8 h-8 mr-2"
@@ -105,7 +105,9 @@ const Navbar = () => {
             Health FoRGer
           </motion.div>
         </div>
-        <div className="block lg:hidden">
+
+        {/* Hamburger menu and close icon wrapper */}
+        <div className="block lg:hidden absolute right-0 top-0 p-4">
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="text-white focus:outline-none"
@@ -149,6 +151,7 @@ const Navbar = () => {
             )}
           </button>
         </div>
+
         <motion.div
           className={`w-full block flex-grow lg:flex lg:items-center lg:w-auto ${
             isOpen ? "block" : "hidden"
@@ -165,6 +168,7 @@ const Navbar = () => {
           >
             {auth ? (
               <>
+                {/* Links for authenticated users */}
                 <motion.div
                   className="lg:flex-grow lg:ml-8"
                   whileHover={{ scale: 1.1 }}
@@ -265,6 +269,7 @@ const Navbar = () => {
               </>
             ) : (
               <>
+                {/* Links for unauthenticated users */}
                 <motion.div
                   className="lg:flex-grow lg:ml-8"
                   whileHover={{ scale: 1.1 }}

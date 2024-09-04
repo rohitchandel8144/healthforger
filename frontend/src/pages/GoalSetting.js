@@ -143,9 +143,8 @@ export default function GoalSetting() {
       // Convert formData.deadline to a Date object
       const deadlineDate = new Date(formData.deadline);
       const today = new Date();
-      today.setHours(0, 0, 0, 0); // Set today's date to midnight
+      today.setHours(0, 0, 0, 0);
 
-      // Ensure deadlineDate is not in the past
       if (deadlineDate < today) {
         alert("Deadline cannot be set to a past date.");
         return;
@@ -301,6 +300,7 @@ export default function GoalSetting() {
           <span className="text-sm font-semibold">Show Archived</span>
         </button>
       </div>
+
       <div className="text-center mb-8">
         <motion.button
           onClick={handleOpen}
@@ -312,6 +312,7 @@ export default function GoalSetting() {
           Add New Goal
         </motion.button>
       </div>
+
       {goals.length > 0 ? (
         <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
           {goals.map((goal) => (
@@ -322,7 +323,7 @@ export default function GoalSetting() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="absolute top-0 right-0 mt-2 mr-2 flex space-x-2">
+              <div className="absolute top-2 right-2 flex space-x-2">
                 <button
                   onClick={() => ConfirmDeleteGoal(goal._id)}
                   className="bg-red-600 text-white dark:bg-red-500 dark:text-black px-3 py-1 rounded-lg hover:bg-red-700 dark:hover:bg-red-600 transition duration-300"
@@ -331,14 +332,16 @@ export default function GoalSetting() {
                 </button>
                 <button
                   onClick={() => handleOpen2(goal._id)}
-                  className="bg-green-600 text-white dark:bg-green-500 dark:text-black px-3 py-1 rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition duration-300"
+                  className="bg-blue-600 text-white dark:bg-blue-500 dark:text-black px-3 py-1 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition duration-300"
                 >
                   <PlusCircleIcon className="h-5 w-5" />
                 </button>
               </div>
+
               <h2 className="text-2xl font-semibold text-green-600 dark:text-green-400 mb-2">
                 {goal.target}
               </h2>
+
               <p className="text-gray-700 dark:text-gray-300 mb-1">
                 <span className="font-semibold">Description:</span>{" "}
                 {goal.description}
@@ -351,7 +354,7 @@ export default function GoalSetting() {
                 <span className="font-semibold">Created At:</span>{" "}
                 {new Date(goal.createdAt).toLocaleString()}
                 {new Date(goal.deadline) < new Date() && (
-                  <div className="absolute top-20 right-0 mt-2 mr-2 flex space-x-2">
+                  <div className="absolute top-20 right-2 flex space-x-2">
                     <button
                       onClick={() => handleArchive(goal._id)}
                       className="bg-green-600 text-white dark:bg-green-500 dark:text-black px-3 py-1 rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition duration-300"
@@ -365,20 +368,22 @@ export default function GoalSetting() {
                 <span className="font-semibold">Updated At:</span>{" "}
                 {new Date(goal.updatedAt).toLocaleString()}
               </p>
+
               <h3 className="text-lg font-semibold text-green-600 dark:text-green-400 mb-2">
                 Habits
               </h3>
+
               <ul className="list-disc ml-4">
                 {Array.isArray(goal.habits) && goal.habits.length > 0 ? (
                   goal.habits.map((habit) => (
-                    <li key={habit._id} className="mb-2">
+                    <li key={habit._id} className="mb-4">
                       <p className="text-gray-700 dark:text-gray-300">
                         <span className="font-semibold">Habit Name:</span>{" "}
                         {habit.habit_name}
                       </p>
-                      <div className="flex justify-evenly ">
+                      <div className="flex justify-evenly mt-4">
                         <div className="mt-2">
-                          <p className="text-gray-700 dark:text-gray-300  ">
+                          <p className="text-gray-700 dark:text-gray-300">
                             <span className="font-semibold">
                               Weekly Summary
                             </span>
@@ -417,6 +422,16 @@ export default function GoalSetting() {
           No goals available.
         </p>
       )}
+
+      <motion.button
+        className="bg-blue-600 text-white dark:bg-blue-500 dark:text-black px-6 py-3 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition duration-300 flex items-center justify-center mt-8"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={manageHabits}
+      >
+        Show Habits
+      </motion.button>
+
       <AddGoal
         open={openDialog}
         onClose={handleClose}

@@ -207,245 +207,225 @@ export default function HabitTracker() {
   }, []);
 
   return (
-    <div
-      className="container mx-auto p-6 min-h-screen bg-gradient-to-r from-gray-200 to-gray-400 dark:from-gray-800 dark:to-gray-900
+    <div className="container mx-auto p-6 min-h-screen bg-gradient-to-r from-gray-200 to-gray-400 dark:from-gray-800 dark:to-gray-900">
+  <motion.h1
+    className="text-3xl md:text-4xl font-bold mb-6 text-center text-blue-600 dark:text-blue-400 flex items-center justify-center"
+    initial={{ opacity: 0, y: -50 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }}
+  >
+    <ClipboardDocumentCheckIcon className="h-10 w-10 md:h-12 md:w-12 mr-2" />
+    Habit Tracker
+  </motion.h1>
 
-"
-    >
-      <motion.h1
-        className="text-4xl font-bold mb-8 text-center text-blue-600 dark:text-blue-400 flex items-center justify-center"
-        initial={{ opacity: 0, y: -50 }}
+  <div className="flex flex-col md:flex-row items-center justify-end mb-8 pr-4 space-y-4 md:space-y-0 md:space-x-2">
+    <div className="relative w-full md:w-auto">
+      <select
+        value={searchBy}
+        onChange={(e) => setSearchBy(e.target.value)}
+        className="appearance-none p-3 border rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 pr-8 shadow-md w-full"
+      >
+        <option value="goal">Search by Goal</option>
+        <option value="habit">Search by Habit Name</option>
+      </select>
+      <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+        <svg
+          className="h-4 w-4 text-gray-500 dark:text-gray-400"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fillRule="evenodd"
+            d="M5.293 7.707a1 1 0 011.414 0L10 11.586l3.293-3.879a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </span>
+    </div>
+
+    <div className="w-full md:w-64">
+      <motion.input
+        type="text"
+        placeholder={`Search habits based on ${searchBy}`}
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className="p-3 w-full border-t border-b rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 shadow-md"
+        initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <ClipboardDocumentCheckIcon className="h-12 w-12 mr-2" />
-        Habit Tracker
-      </motion.h1>
-      {/* 
-      <div className="text-center mb-8">
-        <motion.button
-          onClick={handleOpen}
-          className="bg-blue-600 text-white dark:bg-blue-500 dark:text-black px-6 py-3 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition duration-300 flex items-center justify-center"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <PlusCircleIcon className="h-6 w-6 mr-2" />
-          Add New Habit
-        </motion.button>
-      </div> */}
-
-      <div className="flex items-center justify-end mb-8 pr-4 space-x-2">
-        <div className="relative">
-          <select
-            value={searchBy}
-            onChange={(e) => setSearchBy(e.target.value)}
-            className="appearance-none p-3 border rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 pr-8 shadow-md"
-          >
-            <option value="goal">Search by Goal</option>
-            <option value="habit">Search by Habit Name</option>
-          </select>
-          <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-            <svg
-              className="h-4 w-4 text-gray-500 dark:text-gray-400"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M5.293 7.707a1 1 0 011.414 0L10 11.586l3.293-3.879a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </span>
-        </div>
-
-        <div className="w-64 md:w-80">
-          <motion.input
-            type="text"
-            placeholder={`Search habits based on ${searchBy}`}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="p-3 w-full border-t border-b rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 shadow-md"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          />
-        </div>
-
-        <button
-          onClick={() => handleSearch(searchQuery, searchBy)}
-          className="bg-blue-600 text-white px-4 py-3 rounded-r hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 transition duration-300 dark:bg-blue-700 dark:hover:bg-blue-800 shadow-md"
-        >
-          <MagnifyingGlassCircleIcon className="h-5 w-5" />
-        </button>
-      </div>
-
-      {error && (
-        <motion.div
-          className="text-red-500 bg-red-100 p-4 rounded-md shadow-md mb-4 text-center dark:bg-red-900 dark:text-red-400"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          {error}
-        </motion.div>
-      )}
-
-      {habits.length > 0 ? (
-        <div className="grid gap-6 lg:grid-cols-1 xl:grid-cols-1">
-          {habits.map((habit) => (
-            <motion.div
-              key={habit.id}
-              className="bg-white rounded-lg shadow-lg p-6 relative dark:bg-gray-800 dark:text-gray-200"
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="absolute top-0 right-0 mt-2 mr-2">
-                <motion.button
-                  onClick={() => handleConfirmDeleteHabit(habit.id)}
-                  className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300 flex items-center justify-center dark:bg-red-700 dark:hover:bg-red-800"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <TrashIcon className="h-5 w-5 mr-1" />
-                  Delete
-                </motion.button>
-              </div>
-
-              <h2 className="text-2xl font-semibold text-indigo-600 mb-2 dark:text-indigo-400">
-                {habit.habit_name}
-              </h2>
-              <p className="text-gray-700 mb-1 dark:text-gray-300">
-                <span className="font-semibold">Category:</span>{" "}
-                {habit.category}
-              </p>
-              <p className="text-gray-700 mb-1 dark:text-gray-300">
-                <span className="font-semibold">Target Frequency:</span>{" "}
-                {habit.target_frequency}
-              </p>
-              <p className="text-gray-700 mb-1 dark:text-gray-300">
-                <span className="font-semibold">Created At:</span>{" "}
-                {new Date(habit.created_at).toLocaleString()}
-              </p>
-              <p className="text-gray-700 mb-4 dark:text-gray-300">
-                <span className="font-semibold">Updated At:</span>{" "}
-                {new Date(habit.updated_at).toLocaleString()}
-              </p>
-              <h3 className="text-lg font-semibold text-indigo-600 mb-2 dark:text-indigo-400">
-                Logs for Current Week:
-              </h3>
-              <div className="grid grid-cols-7 gap-2">
-                {habit.logs.map((log, logIndex) => {
-                  const date = new Date(log.date);
-                  const dayName = date.toLocaleDateString("en-US", {
-                    weekday: "long",
-                  });
-                  const dateString = date.toLocaleDateString();
-
-                  return (
-                    <motion.div
-                      key={logIndex}
-                      className={`flex flex-col items-center justify-center rounded p-2 shadow ${
-                        log.is_done
-                          ? "bg-green-200 dark:bg-green-700"
-                          : "bg-red-200 dark:bg-red-700"
-                      }`}
-                      whileHover={{ scale: 1.05 }}
-                    >
-                      <p className="text-gray-700 text-sm mb-1 break-words max-w-full dark:text-gray-300">{`${dayName} | ${dateString}`}</p>
-                      <div
-                        className="cursor-pointer"
-                        onClick={() =>
-                          handleDone(
-                            habits.findIndex((h) => h.id === habit.id),
-                            logIndex,
-                            log.date
-                          )
-                        }
-                      >
-                        {log.is_done ? (
-                          <CheckCircleIcon className="text-green-500 h-6 w-6" />
-                        ) : (
-                          <XCircleIcon className="text-red-500 h-6 w-6" />
-                        )}
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      ) : (
-        <p className="text-lg text-gray-500 text-center dark:text-gray-400">
-          No habits found
-        </p>
-      )}
-
-      <AddHabit
-        open={openDialog}
-        onClose={handleClose}
-        onSave={handleAddHabit}
-        title="Add New Habit +"
-      >
-        <div className="mb-4">
-          <motion.input
-            type="text"
-            placeholder="Habit Name"
-            value={habitName}
-            onChange={(e) => setHabitName(e.target.value)}
-            className="p-3 w-full border rounded focus:outline-none focus:border-blue-500 transition-colors dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          />
-        </div>
-        <div className="mb-4">
-          <motion.input
-            type="text"
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="p-3 w-full border rounded focus:outline-none focus:border-blue-500 transition-colors dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.1 }}
-          />
-        </div>
-        <div className="mb-4">
-          <motion.input
-            type="text"
-            placeholder="Category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="p-3 w-full border rounded focus:outline-none focus:border-blue-500 transition-colors dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
-          />
-        </div>
-        <div className="mb-4">
-          <motion.input
-            type="text"
-            placeholder="Target Frequency"
-            value={targetFrequency}
-            onChange={(e) => setTargetFrequency(e.target.value)}
-            className="p-3 w-full border rounded focus:outline-none focus:border-blue-500 transition-colors dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.3 }}
-          />
-        </div>
-      </AddHabit>
-      <div className="mt-4">
-        <Footer />
-      </div>
-      <ConfirmationDialog
-        isOpen={isDialogOpen}
-        onConfirm={handleConfirmHabit}
-        onClose={handleCloseHabit}
-        message={"Are you sure you want to delete this habit"}
+        transition={{ duration: 0.3 }}
       />
     </div>
+
+    <button
+      onClick={() => handleSearch(searchQuery, searchBy)}
+      className="bg-blue-600 text-white px-4 py-3 rounded-r hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 transition duration-300 dark:bg-blue-700 dark:hover:bg-blue-800 shadow-md w-full md:w-auto"
+    >
+      <MagnifyingGlassCircleIcon className="h-5 w-5" />
+    </button>
+  </div>
+
+  {error && (
+    <motion.div
+      className="text-red-500 bg-red-100 p-4 rounded-md shadow-md mb-4 text-center dark:bg-red-900 dark:text-red-400"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      {error}
+    </motion.div>
+  )}
+
+  {habits.length > 0 ? (
+    <div className="grid gap-6 lg:grid-cols-1 xl:grid-cols-1">
+      {habits.map((habit) => (
+        <motion.div
+          key={habit.id}
+          className="bg-white rounded-lg shadow-lg p-4 relative dark:bg-gray-800 dark:text-gray-200"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="absolute top-0 right-0 mt-2 mr-2">
+            <motion.button
+              onClick={() => handleConfirmDeleteHabit(habit.id)}
+              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300 flex items-center justify-center dark:bg-red-700 dark:hover:bg-red-800"
+              whileHover={{ scale: 1.05 }}
+            >
+              <TrashIcon className="h-5 w-5 mr-1" />
+              Delete
+            </motion.button>
+          </div>
+
+          <h2 className="text-xl md:text-2xl font-semibold text-indigo-600 mb-2 dark:text-indigo-400">
+            {habit.habit_name}
+          </h2>
+          <p className="text-gray-700 mb-1 dark:text-gray-300">
+            <span className="font-semibold">Category:</span> {habit.category}
+          </p>
+          <p className="text-gray-700 mb-1 dark:text-gray-300">
+            <span className="font-semibold">Target Frequency:</span> {habit.target_frequency}
+          </p>
+          <p className="text-gray-700 mb-1 dark:text-gray-300">
+            <span className="font-semibold">Created At:</span> {new Date(habit.created_at).toLocaleString()}
+          </p>
+          <p className="text-gray-700 mb-4 dark:text-gray-300">
+            <span className="font-semibold">Updated At:</span> {new Date(habit.updated_at).toLocaleString()}
+          </p>
+          <h3 className="text-lg font-semibold text-indigo-600 mb-2 dark:text-indigo-400">
+            Logs for Current Week:
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-7 gap-2">
+            {habit.logs.map((log, logIndex) => {
+              const date = new Date(log.date);
+              const dayName = date.toLocaleDateString("en-US", {
+                weekday: "long",
+              });
+              const dateString = date.toLocaleDateString();
+
+              return (
+                <motion.div
+                  key={logIndex}
+                  className={`flex flex-col items-center justify-center rounded p-2 shadow ${
+                    log.is_done ? "bg-green-200 dark:bg-green-700" : "bg-red-200 dark:bg-red-700"
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <p className="text-gray-700 text-sm mb-1 break-words max-w-full dark:text-gray-300">{`${dayName} | ${dateString}`}</p>
+                  <div
+                    className="cursor-pointer"
+                    onClick={() =>
+                      handleDone(
+                        habits.findIndex((h) => h.id === habit.id),
+                        logIndex,
+                        log.date
+                      )
+                    }
+                  >
+                    {log.is_done ? (
+                      <CheckCircleIcon className="text-green-500 h-6 w-6" />
+                    ) : (
+                      <XCircleIcon className="text-red-500 h-6 w-6" />
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  ) : (
+    <p className="text-lg text-gray-500 text-center dark:text-gray-400">
+      No habits found
+    </p>
+  )}
+
+  <AddHabit
+    open={openDialog}
+    onClose={handleClose}
+    onSave={handleAddHabit}
+    title="Add New Habit +"
+  >
+    <div className="mb-4">
+      <motion.input
+        type="text"
+        placeholder="Habit Name"
+        value={habitName}
+        onChange={(e) => setHabitName(e.target.value)}
+        className="p-3 w-full border rounded focus:outline-none focus:border-blue-500 transition-colors dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      />
+    </div>
+    <div className="mb-4">
+      <motion.input
+        type="text"
+        placeholder="Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        className="p-3 w-full border rounded focus:outline-none focus:border-blue-500 transition-colors dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+      />
+    </div>
+    <div className="mb-4">
+      <motion.input
+        type="text"
+        placeholder="Category"
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        className="p-3 w-full border rounded focus:outline-none focus:border-blue-500 transition-colors dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.2 }}
+      />
+    </div>
+    <div className="mb-4">
+      <motion.input
+        type="text"
+        placeholder="Target Frequency"
+        value={targetFrequency}
+        onChange={(e) => setTargetFrequency(e.target.value)}
+        className="p-3 w-full border rounded focus:outline-none focus:border-blue-500 transition-colors dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.3 }}
+      />
+    </div>
+  </AddHabit>
+
+  <div className="mt-4">
+    <Footer />
+  </div>
+
+  <ConfirmationDialog
+    isOpen={isDialogOpen}
+    onConfirm={handleConfirmHabit}
+    onClose={handleCloseHabit}
+    message={"Are you sure you want to delete this habit"}
+  />
+</div>
   );
 }
