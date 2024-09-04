@@ -50,7 +50,7 @@ exports.signup = async (req, res) => {
     Jwt.sign(
       { user },
       process.env.JWT_SECRET,
-      { expiresIn: "31d" },
+      { expiresIn: "24h" },
       (err, token) => {
         if (err) {
           return res.status(500).send({ result: "Something went wrong" });
@@ -96,7 +96,7 @@ exports.login = async (req, resp) => {
     Jwt.sign(
       { user },
       process.env.JWT_SECRET,
-      { expiresIn: "31d" },
+      { expiresIn: "24h" },
       (err, token) => {
         if (err) {
           console.error("JWT Error:", err);
