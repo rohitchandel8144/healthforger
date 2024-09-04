@@ -1,2 +1,47 @@
+# Node.js
 node_modules/
+npm-debug.log
+yarn-error.log
 .env
+.env.local
+.env.*.local
+package-lock.json
+yarn.lock
+
+# Build output
+build/
+dist/
+*.tgz
+
+# Logs
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Editor specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# MongoDB files
+*.db
+*.mongodb
+*.sqlite
+
+# React specific
+*.jsx
+*.js.map
+*.d.ts
+
+# Coverage reports
+coverage/
+
+# Deployment-specific files
+.render/  # If using Render or similar deployment service
+
+# Misc
+*.seed
+*.lock
