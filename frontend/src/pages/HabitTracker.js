@@ -12,6 +12,9 @@ import AddHabit from "../components/AddHabit";
 import { motion } from "framer-motion";
 import Footer from "../components/Footer";
 import ConfirmationDialog from "../components/ConfirmationDialog";
+import Loader from "../components/Loader";
+import { useLoading } from "../context/LoadingContext";
+
 
 export default function HabitTracker() {
   const [habits, setHabits] = useState([]);
@@ -25,8 +28,9 @@ export default function HabitTracker() {
   const [error, setError] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [DeleteGoalId, SetDeleteGoalId] = useState(null);
-
+  const {loading,showLoading,hideLoading}=useLoading();
   async function fetchHabits() {
+    showLoading();
     try {
       const token = JSON.parse(localStorage.getItem("token"));
       const response = await axios.get(
@@ -41,6 +45,8 @@ export default function HabitTracker() {
       setHabits(response.data);
     } catch (error) {
       console.error("Error fetching habits:", error);
+    }finally{
+      hideLoading();
     }
   }
 
@@ -426,6 +432,7 @@ export default function HabitTracker() {
     onClose={handleCloseHabit}
     message={"Are you sure you want to delete this habit"}
   />
+  {loading && <Loader/>}
 </div>
   );
 }
