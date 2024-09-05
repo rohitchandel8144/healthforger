@@ -36,7 +36,7 @@ const startCronJobNotification = () => {
           }
         }
       } else {
-        console.log('No missed habits found');
+        console.log('No missed habits');
       }
 
       // Handle upcoming goal deadlines
