@@ -9,7 +9,10 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
+import {LoadingProvider, useLoading} from "../../context/LoadingContext"
 import axios from "axios";
+import Loader from "../Loader";
+
 
 // Register Chart.js components
 ChartJS.register(
@@ -24,9 +27,11 @@ ChartJS.register(
 const ComparisonInsights = () => {
   const [pieData, setPieData] = useState({ labels: [], datasets: [] });
   const [performanceData, setPerformanceData] = useState(null);
+  const { loading, showLoading, hideLoading } = useLoading();
 
   useEffect(() => {
     const fetchData = async () => {
+      showLoading();
       try {
         const token = JSON.parse(localStorage.getItem("token"));
 
@@ -79,6 +84,8 @@ const ComparisonInsights = () => {
         });
       } catch (error) {
         console.error("Error fetching data:", error);
+      }finally{
+        hideLoading();
       }
     };
 
@@ -162,6 +169,7 @@ const ComparisonInsights = () => {
           )}
         </div>
       </div>
+      {loading && <Loader/>}
     </div>
   );
 };

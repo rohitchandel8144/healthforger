@@ -214,8 +214,9 @@ export default function SignUp() {
             </div>
           </form>
         </div>
-        {loading && <Loader />}
+        
       </motion.div>
+      {loading && <Loader />}
       <div className="mt-4 w-full">
         <Footer />
       </div>

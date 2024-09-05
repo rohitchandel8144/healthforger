@@ -17,6 +17,9 @@ import CircularProgressBar from "../components/CircularProgressBar";
 import Footer from "../components/Footer";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 import PaymentForm from "../components/PaymentForm";
+import { useLoading } from "../context/LoadingContext";
+import Loader from "../components/Loader";
+
 
 export default function GoalSetting() {
   const [goals, setGoals] = useState([]);
@@ -24,7 +27,7 @@ export default function GoalSetting() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [openDialog2, setOpenDialog2] = useState(false);
-
+  const { loading, showLoading, hideLoading } = useLoading();
   const [formData, setFormData] = useState({
     target: "",
     deadline: "",
@@ -40,6 +43,7 @@ export default function GoalSetting() {
   const [goalIdToDelete, SetGoalIdToDelete] = useState(null);
 
   const fetchGoals = async () => {
+    showLoading();
     try {
       const token = JSON.parse(localStorage.getItem("token"));
       const response = await axios.get(
@@ -54,6 +58,8 @@ export default function GoalSetting() {
       console.log("Fetched goals:", response.data);
     } catch (error) {
       setError(error);
+    } finally { 
+      hideLoading();
     }
   };
 
@@ -541,6 +547,7 @@ export default function GoalSetting() {
         onClose={handleDeleteClose}
         message={"Are you sure you want to delete this goal"}
       />
+           {loading && <Loader />}
       <div className="mt-4">
         <Footer />
       </div>

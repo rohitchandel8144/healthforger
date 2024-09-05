@@ -148,6 +148,8 @@ export default function VerifyOtp() {
         </form>
       </div>
     </motion.div>
+    {loading && <Loader />}
+
     <div className="mt-4">
         <Footer/>
       </div>

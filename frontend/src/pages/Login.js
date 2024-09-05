@@ -8,9 +8,6 @@ import { motion } from "framer-motion";
 import { useLoading } from "../context/LoadingContext";
 import Loader from "../components/Loader";
 
-function handleGoogleLogin() {
-  window.location.href = `${process.env.REACT_APP_API_URL}/api/auth/google/callback`;
-}
 
 export default function Login() {
   const [password, setPassword] = useState("");
@@ -20,6 +17,21 @@ export default function Login() {
   const [verificationStatus, setVerificationStatus] = useState("");
   const [serverError, setServerError] = useState("");
   const {showLoading, hideLoading,loading} = useLoading();
+
+
+  function handleGoogleLogin() {
+  
+    showLoading();
+    try{
+      window.location.href = `${process.env.REACT_APP_API_URL}/api/auth/google/callback`;
+    }catch(error){
+      console.log(error);
+  
+    }finally{
+      hideLoading();
+    }
+  }
+  
 
   const validate = () => {
     const tempErrors = {};
@@ -115,6 +127,7 @@ export default function Login() {
   }, [verificationStatus, navigate, email]);
 
   return (
+    <>
     <motion.div
       className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-200 to-gray-400 dark:from-gray-800 dark:to-gray-900"
       initial={{ opacity: 0 }}
@@ -211,8 +224,10 @@ export default function Login() {
             <span className="font-medium">Login with Google</span>
           </button>
       </div>
-      {loading && <Loader />} {/* Render Loader based on loading state */}
+     {/* Render Loader based on loading state */}
       </motion.div>
+      {loading && <Loader/>}
+      </>
  
   );
 }

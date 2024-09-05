@@ -108,8 +108,9 @@ export default function SendOtp() {
             </>
           )}
         </div>
-        {loading && <Loader />}
+   
       </motion.div>
+      {loading && <Loader />}
       <div className="mt-4">
         <Footer />
       </div>
