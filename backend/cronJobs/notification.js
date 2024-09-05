@@ -32,7 +32,7 @@ const startCronJobNotification = () => {
               );
             }
           } else {
-            console.error(`Habit not found for ID: ${missedHabit._id}`);
+            console.error(`Habit not  found for ID: ${missedHabit._id}`);
           }
         }
       } else {
