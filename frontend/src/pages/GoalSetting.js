@@ -20,7 +20,6 @@ import PaymentForm from "../components/PaymentForm";
 import { useLoading } from "../context/LoadingContext";
 import Loader from "../components/Loader";
 
-
 export default function GoalSetting() {
   const [goals, setGoals] = useState([]);
   const [error, setError] = useState(null);
@@ -58,7 +57,7 @@ export default function GoalSetting() {
       console.log("Fetched goals:", response.data);
     } catch (error) {
       setError(error);
-    } finally { 
+    } finally {
       hideLoading();
     }
   };
@@ -252,14 +251,20 @@ export default function GoalSetting() {
     return Math.round(progress);
   };
 
-  function checkDeadline(deadlineString) {
+  function checkDeadline(deadline) {
     let today = new Date();
-    let deadline = new Date(deadlineString);
-    return today < deadline
-      ? deadline.toLocaleDateString()
-      : "Hooray your goal is completed";
+    let deadlineDate = new Date(deadline);
+  
+    console.log("Today:", today.toLocaleDateString());
+    console.log("Deadline:", deadlineDate.toLocaleDateString());
+    
+    if (today < deadlineDate) {
+      return deadlineDate.toLocaleDateString();
+    } else {
+      return "Hooray, your goal is completed!";
+    }
   }
-
+  
   async function handleArchive(goalId) {
     console.log(goalId);
     try {
@@ -354,9 +359,9 @@ export default function GoalSetting() {
               </p>
               <p className="text-gray-700 dark:text-gray-300 mb-1">
                 <span className="font-semibold">Deadline:</span>{" "}
-                {checkDeadline(new Date(goal.deadline).toLocaleDateString())}
+                {checkDeadline(goal.deadline)}
               </p>
-              <p className="text-gray-700 dark:text-gray-300 mb-1">
+              <p className="text-gray-700 dark:text-gray-300 mb-1 relative">
                 <span className="font-semibold">Created At:</span>{" "}
                 {new Date(goal.createdAt).toLocaleString()}
                 {new Date(goal.deadline) < new Date() && (
@@ -370,6 +375,7 @@ export default function GoalSetting() {
                   </div>
                 )}
               </p>
+
               <p className="text-gray-700 dark:text-gray-300 mb-4">
                 <span className="font-semibold">Updated At:</span>{" "}
                 {new Date(goal.updatedAt).toLocaleString()}
@@ -547,7 +553,7 @@ export default function GoalSetting() {
         onClose={handleDeleteClose}
         message={"Are you sure you want to delete this goal"}
       />
-           {loading && <Loader />}
+      {loading && <Loader />}
       <div className="mt-4">
         <Footer />
       </div>
