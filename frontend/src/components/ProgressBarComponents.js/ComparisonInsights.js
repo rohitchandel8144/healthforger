@@ -9,10 +9,9 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
-import {LoadingProvider, useLoading} from "../../context/LoadingContext"
+import { LoadingProvider, useLoading } from "../../context/LoadingContext";
 import axios from "axios";
 import Loader from "../Loader";
-
 
 // Register Chart.js components
 ChartJS.register(
@@ -36,9 +35,12 @@ const ComparisonInsights = () => {
         const token = JSON.parse(localStorage.getItem("token"));
 
         const [bestWorstDaysResponse, performanceResponse] = await Promise.all([
-          axios.get(`${process.env.REACT_APP_API_URL}/api/progress/bestWorstDays`, {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
+          axios.get(
+            `${process.env.REACT_APP_API_URL}/api/progress/bestWorstDays`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          ),
           axios.get(
             `${process.env.REACT_APP_API_URL}/api/progress/weeklyVsMonthlyPerformance`,
             {
@@ -84,7 +86,7 @@ const ComparisonInsights = () => {
         });
       } catch (error) {
         console.error("Error fetching data:", error);
-      }finally{
+      } finally {
         hideLoading();
       }
     };
@@ -145,38 +147,37 @@ const ComparisonInsights = () => {
   };
 
   return (
-<div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 md:p-6 mt-4 md:mt-6 max-w-full md:max-w-2xl mx-auto">
-  <h2 className="text-lg md:text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-    Comparison & Insights
-  </h2>
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 md:p-6 mt-4 md:mt-6 max-w-full md:max-w-4xl mx-auto">
+      <h2 className="text-lg md:text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
+        Comparison & Insights
+      </h2>
 
-  <div className="mb-4 md:mb-6">
-    <h3 className="text-base md:text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
-      Best/Worst Days
-    </h3>
-    <div className="relative h-60 md:h-120">
-      <Pie data={pieData} options={pieOptions} />
-    </div>
-  </div>
+      <div className="mb-6 md:mb-8">
+        <h3 className="text-base md:text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+          Best/Worst Days
+        </h3>
+        <div className="relative h-72 md:h-[500px]">
+          <Pie data={pieData} options={pieOptions} />
+        </div>
+      </div>
 
-  <div className="mb-4 md:mb-6">
-    <h3 className="text-base md:text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
-      Weekly vs. Monthly Performance
-    </h3>
-    <div className="relative h-48 md:h-80">
-      {performanceData && (
-        <Bar data={performanceData} options={barOptions} />
+      <div className="mb-6 md:mb-8">
+        <h3 className="text-base md:text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+          Weekly vs. Monthly Performance
+        </h3>
+        <div className="relative h-64 md:h-[450px]">
+          {performanceData && (
+            <Bar data={performanceData} options={barOptions} />
+          )}
+        </div>
+      </div>
+
+      {loading && (
+        <div className="flex justify-center items-center h-24">
+          <Loader />
+        </div>
       )}
     </div>
-  </div>
-
-  {loading && (
-    <div className="flex justify-center items-center h-24">
-      <Loader />
-    </div>
-  )}
-</div>
-
   );
 };
 

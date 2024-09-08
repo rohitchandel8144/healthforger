@@ -40,7 +40,7 @@ export default function HabitTracker() {
           },
         }
       );
-      // console.log("Full API response:", response.data);
+      console.log("Full API response:", response.data);
       setHabits(response.data);
     } catch (error) {
       console.error("Error fetching habits:", error);
