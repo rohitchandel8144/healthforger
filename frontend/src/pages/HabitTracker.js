@@ -40,7 +40,7 @@ export default function HabitTracker() {
           },
         }
       );
-      console.log("Full API response:", response.data);
+      // console.log("Full API response:", response.data);
       setHabits(response.data);
     } catch (error) {
       console.error("Error fetching habits:", error);
@@ -77,7 +77,7 @@ export default function HabitTracker() {
         }
       );
 
-      console.log("Habit added successfully:", response.data);
+      // console.log("Habit added successfully:", response.data);
       setHabitName("");
       setDescription("");
       setCategory("");
@@ -93,7 +93,7 @@ export default function HabitTracker() {
   }
 
   async function handleSearch(searchQuery, searchBy) {
-    console.log(searchBy);
+    // console.log(searchBy);
     const token = JSON.parse(localStorage.getItem("token"));
     try {
       if (!searchQuery) {
@@ -109,7 +109,7 @@ export default function HabitTracker() {
           },
         }
       );
-      console.log(response.data);
+      // console.log(response.data);
       setHabits(response.data);
       setSearchQuery("");
       setError("");
@@ -125,7 +125,7 @@ export default function HabitTracker() {
 
   function handleConfirmDeleteHabit(GoalId) {
     setIsDialogOpen(true);
-    console.log(GoalId);
+    // console.log(GoalId);
     SetDeleteGoalId(GoalId);
   }
 
@@ -149,7 +149,7 @@ export default function HabitTracker() {
           },
         }
       );
-      console.log("Habit deleted successfully");
+      // console.log("Habit deleted successfully");
       fetchHabits();
     } catch (error) {
       console.log("Error deleting habit:", error);
@@ -182,9 +182,9 @@ export default function HabitTracker() {
       const habitId = habits[habitIndex]?.id;
       const logId = habits[habitIndex]?.logs[logIndex]?.id;
       const isDone = !habits[habitIndex]?.logs[logIndex]?.is_done;
-      console.log(
-        `Updating habitId: ${habitId}, logId: ${logId}, isDone: ${isDone}`
-      );
+      // console.log(
+      //   `Updating habitId: ${habitId}, logId: ${logId}, isDone: ${isDone}`
+      // );
 
       try {
         const token = JSON.parse(localStorage.getItem("token"));
@@ -197,7 +197,7 @@ export default function HabitTracker() {
             },
           }
         );
-        console.log("Habit log updated successfully.");
+        // console.log("Habit log updated successfully.");
       } catch (error) {
         console.error("Error updating habit log:", error);
         // Optionally, revert the optimistic update if the API call fails
@@ -263,7 +263,7 @@ export default function HabitTracker() {
 
         <button
           onClick={() => handleSearch(searchQuery, searchBy)}
-          className="bg-blue-600 text-white px-4 py-3 rounded-r hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 transition duration-300 dark:bg-blue-700 dark:hover:bg-blue-800 shadow-md w-full md:w-auto"
+          className="bg-blue-600 text-white px-4 py-3 rounded-r hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 transition duration-300 dark:bg-blue-700 dark:hover:bg-blue-800 shadow-md w-full md:w-auto flex items-center justify-center"
         >
           <MagnifyingGlassCircleIcon className="h-5 w-5" />
         </button>

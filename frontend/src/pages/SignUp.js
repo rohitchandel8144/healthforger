@@ -64,7 +64,7 @@ export default function SignUp() {
             recaptchaToken,
           }
         );
-        console.log(response.data.auth);
+        // console.log(response.data.auth);
         localStorage.setItem("user", JSON.stringify(response.data.result));
         localStorage.setItem("token", JSON.stringify(response.data.auth));
         navigate("/sendotp", { state: { email } });

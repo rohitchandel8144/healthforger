@@ -34,6 +34,7 @@ const Admin = () => {
   };
 
   const deleteUser = async (userId) => {
+    showLoading(); // Show loader when performing the delete operation
     try {
       const token = JSON.parse(localStorage.getItem("token"));
       await axios.delete(
@@ -47,11 +48,12 @@ const Admin = () => {
       fetchData();
     } catch (err) {
       setError(err.message);
+    } finally {
+      hideLoading(); // Hide loader after operation completes
     }
   };
 
-  if (loading) return <div className="p-6">Loading...</div>;
-  if (error) return <div className="p-6">Error: {error}</div>;
+  if (loading) return <Loader />; // Show loader while loading
 
   return (
     <div className="p-6 bg-gray-100 dark:bg-gray-900 dark:text-white min-h-screen">

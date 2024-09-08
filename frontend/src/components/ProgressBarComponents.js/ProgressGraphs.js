@@ -130,50 +130,57 @@ const ProgressGraphs = () => {
   }, []);
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mt-6">
-      <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-        Progress Graphs
-      </h2>
-
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
-          Habit Completion Over Time
-        </h3>
-        {habitTrendsData && (
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 md:p-6 mt-4 md:mt-6 max-w-full md:max-w-2xl mx-auto">
+    <h2 className="text-lg md:text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+      Progress Graphs
+    </h2>
+  
+    <div className="mb-4 md:mb-6">
+      <h3 className="text-base md:text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
+        Habit Completion Over Time
+      </h3>
+      {habitTrendsData && (
+        <div className="relative h-60 md:h-96">
           <Line
             data={habitTrendsData}
             ref={lineChartRef}
             options={{ responsive: true }}
           />
-        )}
-      </div>
-
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
-          Goal Progress
-        </h3>
-        {goalProgressData && (
+        </div>
+      )}
+    </div>
+  
+    <div className="mb-4 md:mb-6">
+      <h3 className="text-base md:text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
+        Goal Progress
+      </h3>
+      {goalProgressData && (
+        <div className="relative h-60 md:h-96">
           <Bar
             data={goalProgressData}
             ref={barChartRef}
             options={{ responsive: true }}
           />
-        )}
-      </div>
-
-      <div>
-        <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
-          Habits by Category
-        </h3>
-        {categoryBreakdownData && (
+        </div>
+      )}
+    </div>
+  
+    <div>
+      <h3 className="text-base md:text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
+        Habits by Category
+      </h3>
+      {categoryBreakdownData && (
+        <div className="relative h-60 md:h-96">
           <Bar
             data={categoryBreakdownData}
             ref={barChartRef}
             options={{ responsive: true }}
           />
-        )}
-      </div>
+        </div>
+      )}
     </div>
+  </div>
+  
   );
 };
 

@@ -145,32 +145,38 @@ const ComparisonInsights = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mt-6">
-      <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-        Comparison & Insights
-      </h2>
+<div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 md:p-6 mt-4 md:mt-6 max-w-full md:max-w-2xl mx-auto">
+  <h2 className="text-lg md:text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+    Comparison & Insights
+  </h2>
 
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
-          Best/Worst Days
-        </h3>
-        <div className="relative h-120">
-          <Pie data={pieData} options={pieOptions} />
-        </div>
-      </div>
-
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
-          Weekly vs. Monthly Performance
-        </h3>
-        <div className="relative h-80">
-          {performanceData && (
-            <Bar data={performanceData} options={barOptions} />
-          )}
-        </div>
-      </div>
-      {loading && <Loader/>}
+  <div className="mb-4 md:mb-6">
+    <h3 className="text-base md:text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
+      Best/Worst Days
+    </h3>
+    <div className="relative h-60 md:h-120">
+      <Pie data={pieData} options={pieOptions} />
     </div>
+  </div>
+
+  <div className="mb-4 md:mb-6">
+    <h3 className="text-base md:text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
+      Weekly vs. Monthly Performance
+    </h3>
+    <div className="relative h-48 md:h-80">
+      {performanceData && (
+        <Bar data={performanceData} options={barOptions} />
+      )}
+    </div>
+  </div>
+
+  {loading && (
+    <div className="flex justify-center items-center h-24">
+      <Loader />
+    </div>
+  )}
+</div>
+
   );
 };
 

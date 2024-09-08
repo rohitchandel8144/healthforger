@@ -11,7 +11,7 @@ export default function ShowArchive() {
   async function handleArchiveGoals() {
     const token = JSON.parse(localStorage.getItem("token"));
     if (!token) {
-      console.error("No token found in local storage");
+      // console.error("No token found in local storage");
       return;
     }
 
@@ -24,7 +24,7 @@ export default function ShowArchive() {
           },
         }
       );
-      console.log(response.data);
+      // console.log(response.data);
       setGoals(response.data);
       
     } catch (error) {
@@ -48,7 +48,7 @@ export default function ShowArchive() {
         }
       );
       handleArchiveGoals();
-      console.log("Deleting successful");
+      // console.log("Deleting successful");
     } catch (error) {
       console.log("Error deleting goals", error);
     }

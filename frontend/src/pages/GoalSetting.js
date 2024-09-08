@@ -54,7 +54,7 @@ export default function GoalSetting() {
         }
       );
       setGoals(response.data);
-      console.log("Fetched goals:", response.data);
+      // console.log("Fetched goals:", response.data);
     } catch (error) {
       setError(error);
     } finally {
@@ -91,7 +91,7 @@ export default function GoalSetting() {
         }
       );
 
-      console.log("Habit added successfully:", response.data);
+      // console.log("Habit added successfully:", response.data);
       setGoals((prevGoals) =>
         prevGoals.map((goal) =>
           goal._id === selectId
@@ -172,7 +172,7 @@ export default function GoalSetting() {
         }
       );
 
-      console.log("Goal saved successfully:", response.data);
+      // console.log("Goal saved successfully:", response.data);
       setGoals((prevGoals) => [...prevGoals, response.data]);
       handleClose();
       fetchGoals();
@@ -255,8 +255,8 @@ export default function GoalSetting() {
     let today = new Date();
     let deadlineDate = new Date(deadline);
   
-    console.log("Today:", today.toLocaleDateString());
-    console.log("Deadline:", deadlineDate.toLocaleDateString());
+    // console.log("Today:", today.toLocaleDateString());
+    // console.log("Deadline:", deadlineDate.toLocaleDateString());
     
     if (today < deadlineDate) {
       return deadlineDate.toLocaleDateString();
