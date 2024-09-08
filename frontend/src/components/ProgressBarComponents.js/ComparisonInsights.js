@@ -121,7 +121,7 @@ const ComparisonInsights = () => {
       tooltip: {
         callbacks: {
           labelTextColor: function (context) {
-            return "#000000";
+            return "#11111";
           },
         },
       },
