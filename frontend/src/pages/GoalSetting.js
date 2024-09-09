@@ -444,7 +444,53 @@ export default function GoalSetting() {
         Show Habits
       </motion.button>
 
-     z
+      <AddGoal
+        open={openDialog}
+        onClose={handleClose}
+        onSave={saveGoals}
+        title="Add new Goal"
+      >
+        <div className="mb-4">
+          <motion.input
+            type="text"
+            placeholder="target"
+            name="target"
+            value={formData.target}
+            onChange={handleAddGoal}
+            className="p-3 w-full border rounded focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 dark:bg-gray-700 dark:text-white transition-colors"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          />
+        </div>
+        <div className="mb-4">
+          <motion.input
+            type="date"
+            placeholder="Deadline"
+            name="deadline"
+            value={formData.deadline}
+            onChange={handleAddGoal}
+            className="p-3 w-full border rounded focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 dark:bg-gray-700 dark:text-white transition-colors"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          />
+        </div>
+        <div className="mb-4">
+          <motion.input
+            type="text"
+            placeholder="description"
+            name="description"
+            value={formData.description}
+            onChange={handleAddGoal}
+            className="p-3 w-full border rounded focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 dark:bg-gray-700 dark:text-white transition-colors"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          />
+        </div>
+      </AddGoal>
+
       <AddHabit
         open={openDialog2}
         onClose={handleClose2}
