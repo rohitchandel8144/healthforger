@@ -33,6 +33,9 @@ export default function GoalSetting() {
     description: "",
   });
 
+  const [isEditMode, setIsEditMode] = useState(false); 
+  const [selectedGoalId, setSelectedGoalId] = useState(null);
+
   const navigate = useNavigate();
   const [habitName, setHabitName] = useState("");
   const [description, setDescription] = useState("");
@@ -66,6 +69,17 @@ export default function GoalSetting() {
     fetchGoals();
   }, []);
 
+
+  const openAddDialog = () => {
+    setIsEditMode(false);  // <-- Make sure to set isEditMode to false for adding a new goal
+    setFormData({
+      target: '',
+      deadline: '',
+      description: ''
+    });  // <-- Clear form data for adding a new goal
+    setOpenDialog(true);  // <-- Open the modal
+  };
+  
   const handleAddHabit = async () => {
     try {
       if (!habitName || !description || !targetFrequency || !category) {
@@ -138,14 +152,27 @@ export default function GoalSetting() {
     }));
   };
 
+
+  const openEditDialog = (goal) => {
+    setIsEditMode(true);  // <-- Enable Edit Mode
+    setSelectedGoalId(goal._id);  // <-- Set the goal to edit
+    setFormData({
+      target: goal.target,
+      deadline: new Date(goal.deadline).toISOString().split("T")[0],  // Format deadline for date input
+      description: goal.description,
+    });
+    setOpenDialog(true);
+  };
+
+
+ 
   const saveGoals = async () => {
     try {
       if (!formData.target || !formData.deadline || !formData.description) {
         alert("Please fill all the fields");
-
         return;
       }
-      // Convert formData.deadline to a Date object
+
       const deadlineDate = new Date(formData.deadline);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -158,22 +185,44 @@ export default function GoalSetting() {
       const token = JSON.parse(localStorage.getItem("token"));
       const user_id = JSON.parse(localStorage.getItem("user"));
 
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/goals/setgoals`,
-        {
-          ...formData,
-          user_id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+      if (isEditMode && selectedGoalId) {
+        // Update existing goal
+        const response = await axios.patch(
+          `${process.env.REACT_APP_API_URL}/api/goals/updategoal/${selectedGoalId}`,
+          {
+            ...formData,
+            user_id,
           },
-        }
-      );
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setGoals((prevGoals) =>
+          prevGoals.map((goal) =>
+            goal._id === selectedGoalId ? response.data : goal
+          )
+        );
+      } else {
+        // Add new goal
+        const response = await axios.post(
+          `${process.env.REACT_APP_API_URL}/api/goals/setgoals`,
+          {
+            ...formData,
+            user_id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setGoals((prevGoals) => [...prevGoals, response.data]);
+      }
 
-      // console.log("Goal saved successfully:", response.data);
-      setGoals((prevGoals) => [...prevGoals, response.data]);
       handleClose();
       fetchGoals();
     } catch (error) {
@@ -314,7 +363,7 @@ export default function GoalSetting() {
 
       <div className="text-center mb-8">
         <motion.button
-          onClick={handleOpen}
+          onClick={openAddDialog}
           className="bg-blue-600 text-white dark:bg-blue-500 dark:text-black px-6 py-3 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition duration-300 flex items-center justify-center"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
@@ -346,6 +395,12 @@ export default function GoalSetting() {
                   className="bg-blue-600 text-white dark:bg-blue-500 dark:text-black px-3 py-1 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition duration-300"
                 >
                   <PlusCircleIcon className="h-5 w-5" />
+                </button>
+                <button
+                  onClick={() => openEditDialog(goal)}  // <-- Open Edit Dialog
+                  className="bg-blue-600 text-white dark:bg-blue-500 dark:text-black px-3 py-1 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition duration-300"
+                >
+                  <PencilIcon className="h-5 w-5" />
                 </button>
               </div>
 
@@ -448,19 +503,16 @@ export default function GoalSetting() {
         open={openDialog}
         onClose={handleClose}
         onSave={saveGoals}
-        title="Add new Goal"
+        title={isEditMode ? "Edit Goal" : "Add New Goal +"}  // <-- Dynamically set title
       >
         <div className="mb-4">
           <motion.input
             type="text"
-            placeholder="target"
+            placeholder="Target"
             name="target"
             value={formData.target}
             onChange={handleAddGoal}
-            className="p-3 w-full border rounded focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 dark:bg-gray-700 dark:text-white transition-colors"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
+            className="p-3 w-full border rounded"
           />
         </div>
         <div className="mb-4">
@@ -470,23 +522,17 @@ export default function GoalSetting() {
             name="deadline"
             value={formData.deadline}
             onChange={handleAddGoal}
-            className="p-3 w-full border rounded focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 dark:bg-gray-700 dark:text-white transition-colors"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
+            className="p-3 w-full border rounded"
           />
         </div>
         <div className="mb-4">
           <motion.input
             type="text"
-            placeholder="description"
+            placeholder="Description"
             name="description"
             value={formData.description}
             onChange={handleAddGoal}
-            className="p-3 w-full border rounded focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 dark:bg-gray-700 dark:text-white transition-colors"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
+            className="p-3 w-full border rounded"
           />
         </div>
       </AddGoal>
