@@ -93,3 +93,40 @@ exports.showarchive = async (req, res) => {
       .json({ message: "internal server error", error: error.message });
   }
 };
+
+exports.updateGoal = async (req, res) => {
+  try {
+    const goalId = req.params.goalId;
+    const updatedGoal = req.body;
+
+    if (!updatedGoal.target || !updatedGoal.deadline || !updatedGoal.description) {
+      return res.status(400).json({ message: "Target, deadline and description are required" });
+    }
+
+
+    const goal = await Goals.findOne({ _id: goalId });
+
+    if (!goal) {
+      return res.status(404).json({ message: "Goal not found" });
+    }
+
+    // Update the goal
+    const updatedGoalData = {
+      ...updatedGoal,
+      deadline: new Date(updatedGoal.deadline),
+    };
+
+    const updatedGoalResult = await Goals.updateOne({ _id: goalId }, { $set: updatedGoalData });
+
+    // Check if the goal was updated successfully
+    if (updatedGoalResult.nModified === 0) {
+      return res.status(400).json({ message: "Goal could not be updated" });
+    }
+
+    // Return the updated goal
+    res.status(200).json({ goal: updatedGoalResult });
+  } catch (error) {
+    console.error("Error updating goal:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};
