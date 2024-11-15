@@ -8,35 +8,35 @@ const saltRounds = 10;
 
 exports.signup = async (req, res) => {
   try {
-    const RECAPTCHA_SECRET_KEY = "6Lct7S8qAAAAAGer0Bzx-urId1y-ekQP-vky2z37";
-    const recaptchaToken = req.body;
-    if (!recaptchaToken) {
-      return res.status(400).json({ message: "reCAPTCHA token is missing." });
-    }
+    // const RECAPTCHA_SECRET_KEY = "6Lct7S8qAAAAAGer0Bzx-urId1y-ekQP-vky2z37";
+    // const recaptchaToken = req.body;
+    // if (!recaptchaToken) {
+    //   return res.status(400).json({ message: "reCAPTCHA token is missing." });
+    // }
 
-    try {
-      // Verify the reCAPTCHA token
-      const response = await axios.post(
-        `https://www.google.com/recaptcha/api/siteverify`,
-        null,
-        {
-          params: {
-            secret: RECAPTCHA_SECRET_KEY,
-            response: recaptchaToken,
-          },
-        }
-      );
+    // try {
+    //   // Verify the reCAPTCHA token
+    //   const response = await axios.post(
+    //     `https://www.google.com/recaptcha/api/siteverify`,
+    //     null,
+    //     {
+    //       params: {
+    //         secret: RECAPTCHA_SECRET_KEY,
+    //         response: recaptchaToken,
+    //       },
+    //     }
+    //   );
 
-      const { success, score } = response.data;
+    //   const { success, score } = response.data;
 
-      if (!success || (score && score < 0.5)) {
-        return res
-          .status(400)
-          .json({ message: "reCAPTCHA verification failed." });
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    //   if (!success || (score && score < 0.5)) {
+    //     return res
+    //       .status(400)
+    //       .json({ message: "reCAPTCHA verification failed." });
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
     let user = new User(req.body);
     let hashPassword = await bcrypt.hash(user.password, saltRounds);
     user.password = hashPassword;
