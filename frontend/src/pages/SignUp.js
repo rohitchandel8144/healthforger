@@ -189,11 +189,12 @@ export default function SignUp() {
                 </p>
               )}
             </div>
-            <ReCAPTCHA
+
+            {/* <ReCAPTCHA
               sitekey="6Lct7S8qAAAAADTW8vn0bkAfKW0pPVM3qZMUs-kp"
               onChange={(token) => setRecaptchaToken(token)}
               className="mb-4"
-            />
+            /> */}
 
             <button
               type="submit"
